@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+/** React-Router-Dom */
+import { Routes, Route } from "react-router-dom";
+/** Material UI */
+
+/** Pages **/
+import LoginPage from "./pages/Login.page";
+import ProtectedRoute from "./ProtectedRoute";
+import DashboardPage from "./pages/Dashboard.page";
 
 function App() {
+  const [isAuth, setIsAuth] = React.useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <Routes>
+        <Route path="/" element={<LoginPage setAuth={setIsAuth} />} />
+
+        <Route
+          path="/:user/*"
+          element={<ProtectedRoute isAuth={isAuth} redirect="/" />}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Route path="dashboard" element={<DashboardPage />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
